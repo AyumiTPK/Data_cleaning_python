@@ -74,6 +74,20 @@ df['Date'] = pd.to_datetime(df['Date'], format='%d.%m.%y', errors='coerce')
 # Checking for NaT values
 print(df['Date'].isnull().sum())
 
+# Adding separate columns for Roadworks/Unconfirmed Roadworks indicator for Left and Right
+df['Left_Roadworks_Indicator'] = df['Left_Comment'].str.contains('roadworks|unconfirmed roadworks', case=False, na=False)
+df['Right_Roadworks_Indicator'] = df['Right_Comment'].str.contains('roadworks|unconfirmed roadworks', case=False, na=False)
+
+# Adding separate columns for Congestion indicator for Left and Right
+df['Left_Congestion_Indicator'] = df['Left_Comment'].str.contains('congestion', case=False, na=False)
+df['Right_Congestion_Indicator'] = df['Right_Comment'].str.contains('congestion', case=False, na=False)
+
+# Converting boolean to integers
+df['Left_Roadworks_Indicator'] = df['Left_Roadworks_Indicator'].astype(int)
+df['Right_Roadworks_Indicator'] = df['Right_Roadworks_Indicator'].astype(int)
+df['Left_Congestion_Indicator'] = df['Left_Congestion_Indicator'].astype(int)
+df['Right_Congestion_Indicator'] = df['Right_Congestion_Indicator'].astype(int)
+
 # Saving the cleaned DataFrame to a new CSV file
 df.to_csv('/Users/ayumikatsuya/Desktop/cleaned_traffic_data.csv', index=False)
 print("Saved to 'cleaned_traffic_data.csv'.")
