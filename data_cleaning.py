@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 
-
 # Loading the data
 df = pd.read_csv('/Users/ayumikatsuya/Desktop/merged.csv')
 
@@ -14,11 +13,9 @@ df['Left_Speed_Clean'] = pd.to_numeric(df['Left_Speed_Clean'], errors='coerce')
 df['Right_Speed_Clean'] = pd.to_numeric(df['Right_Speed_Clean'], errors='coerce')
 print(df)
 
-
 # Selecting features for regression
 df['Day_of_Week_Numeric'] = df['Day_of_Week'].astype('category').cat.codes
 df['Stratum_Numeric'] = df['Stratum'].astype('category').cat.codes
-
 
 # Separating rows with missing Left_Speed
 train_data_left = df[df['Left_Speed_Clean'].notna()]
@@ -39,7 +36,6 @@ predictions_left = model_left.predict(X_missing_left)
 
 # Filling missing Left_Speed values with predictions
 df.loc[df['Left_Speed_Clean'].isna(), 'Left_Speed_Clean'] = predictions_left
-
 
 # Separating rows with missing Right_Speed
 train_data_right = df[df['Right_Speed_Clean'].notna()]
